@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.db import models
+
 from projeto_controle_estoque.core.models import TimeStampedModel
 from projeto_controle_estoque.produto.models import Produto
+from .managers import EstoqueEntradaManager, EstoqueSaidaManager
 
 
 
@@ -30,6 +32,27 @@ class Estoque(TimeStampedModel):
 
 	def nf_formated(self):
 		return str(self.nf).zfill(3)
+
+class EstoqueEntrada(Estoque):
+
+	objects = EstoqueEntradaManager()
+
+	class Meta:
+
+		proxy = True
+		verbose_name = 'estoque entrada'
+		verbose_name_plural = 'estoque entrada'
+
+
+class EstoqueSaida(Estoque):
+
+	objects = EstoqueSaidaManager()
+
+	class Meta:
+
+		proxy = True
+		verbose_name = 'estoque saída'
+		verbose_name_plural = 'estoque saída'
 
 class EstoqueItens(models.Model):
 
