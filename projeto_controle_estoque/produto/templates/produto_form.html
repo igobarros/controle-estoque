@@ -2,15 +2,6 @@
 
 {% load widget_tweaks %}
 
-{% block css %}
-	<style>
-		span.required:after {
-			content: "*";
-			color: red;
-		}
-	</style>
-{% endblock css %}
-
 {% block content %}
 
 <form method="POST" novalidate>
@@ -37,7 +28,5 @@
 
 
 {% block js %}
-<script>
-	$('#id_importado').removeClass('form-control')
-</script>
+<script src="{% static 'js/produto.js' %}"></script>
 {% endblock js %}

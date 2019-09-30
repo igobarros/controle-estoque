@@ -26,5 +26,5 @@ class Produto(models.Model):
 		return {
 			'pk': self.pk,
 			'produto': self.produto,
-			'estoque': self.estoque
+			'estoque': self.estoque,
 		}

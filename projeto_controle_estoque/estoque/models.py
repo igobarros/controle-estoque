@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
 from django.db import models
 
 from projeto_controle_estoque.core.models import TimeStampedModel
@@ -18,17 +17,21 @@ class Estoque(TimeStampedModel):
 
 	funcionario = models.ForeignKey(User, on_delete=models.CASCADE)
 	nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
-	movimento = models.CharField(max_length=1, choices=MOVIMENTO)
+	movimento = models.CharField(max_length=1, choices=MOVIMENTO, blank=True)
 
 	class Meta:
 
 		ordering = ('-created',)
 
 	def __str__(self):
-		return '{} - {} - {}'.format(self.pk, self.nf, self.created.strftime('%d-%m-%Y'))
+		if self.nf:
+			return '{} - {} - {}'.format(self.pk, self.nf, self.created.strftime('%d-%m-%Y'))
+		return '{} --- {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))
 
 	def nf_formated(self):
-		return str(self.nf).zfill(3)
+		if self.nf:
+			return str(self.nf).zfill(3)
+		return '---'
 
 class EstoqueEntrada(Estoque):
 
@@ -39,9 +42,6 @@ class EstoqueEntrada(Estoque):
 		proxy = True
 		verbose_name = 'estoque entrada'
 		verbose_name_plural = 'estoque entrada'
-
-	def get_absolute_url(self):
-		return reverse_lazy('estoque:estoque_entrada_detail', kwargs={'pk': self.pk})
 
 
 class EstoqueSaida(Estoque):
@@ -54,8 +54,6 @@ class EstoqueSaida(Estoque):
 		verbose_name = 'estoque saída'
 		verbose_name_plural = 'estoque saída'
 
-	def get_absolute_url(self):
-		return reverse_lazy('estoque:estoque_saida_detail', kwargs={'pk': self.pk})
 
 class EstoqueItens(models.Model):
 

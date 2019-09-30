@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,17 +15,7 @@
     <!-- Font-awesome -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <style>
-      body {
-        margin-top: 60px;
-      }
-      .ok {
-        color: green;
-      }
-      .no {
-        color: red;
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <title>Estoque</title>
 
