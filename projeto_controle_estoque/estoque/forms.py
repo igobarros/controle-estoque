@@ -7,7 +7,7 @@ class EstoqueForm(forms.ModelForm):
 	class Meta:
 
 		model = Estoque
-		fields = ('nf',)
+		fields = ('modified', 'nf',)
 
 class EstoqueItensForm(forms.ModelForm):
 

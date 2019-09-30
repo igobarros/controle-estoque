@@ -32,7 +32,17 @@ python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
+## Rodando a aplicação com Docker
 
+```
+docker-compose up --build
+
+```
+
+* Rodando migrações dentro do container
+```
+docker-compose run web python manage.py migrate
+```
 
 
 # Teste dev
