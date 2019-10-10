@@ -11,4 +11,6 @@ urlpatterns = [
 	path('add/', views.ProdutoCreate.as_view(), name='produto_add'),
 	path('<int:pk>/edit/', views.ProdutoUpdate.as_view(), name='produto_edit'),
 	path('<int:pk>/json/', views.produto_json, name='produto_json'),
+	path('import/csv/', views.import_csv, name='import_csv'),
+	path('export/csv/', views.export_csv, name='export_csv'),
 ]
