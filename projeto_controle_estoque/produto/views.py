@@ -1,13 +1,18 @@
-import csv
 import io
+import csv
+from datetime import datetime
+
 from django.contrib import messages
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView, ListView
+
 from .models import Produto
 from .forms import ProdutoForm
 
+from projeto_controle_estoque.produto.actions.import_xlsx import import_xlsx as i_xlsx
+from projeto_controle_estoque.produto.actions.export_xlsx import export_xlsx as e_xlsx
 
 
 def produto_list(request):
@@ -117,3 +122,30 @@ def export_csv(request):
 
 	messages.success(request, 'Produtos exportado com sucesso!')
 	return HttpResponseRedirect(reverse('produto:produto_list'))
+
+
+def import_xlsx(request):
+	filename = 'fix/produtos.xlsx'
+	i_xlsx(filename)
+	messages.success(request, 'Produtos importado com sucesso!')
+	return HttpResponseRedirect(reverse('produto:produto_list'))
+
+
+def export_xlsx(request):
+	MDATA = datetime.now().strftime('%Y-%m-%d')
+	model = 'Produto'
+	filename = 'produtos_exportados.xlsx'
+	_filename = filename.split('.')
+	filename_final = f'{_filename[0]}_{MDATA}.{_filename[1]}'
+	queryset = Produto.objects.all().values_list(
+	    'importado',
+	    'ncm',
+	    'produto',
+	    'preco',
+	    'estoque',
+	    'estoque_minimo',
+	    'categoria__categoria'
+	)
+	columns = ('Importado', 'NCM', 'Produto', 'Preço', 'Estoque', 'Estoque Mínimo', 'Categoria')
+	response = e_xlsx(model, filename_final, queryset, columns)
+	return response

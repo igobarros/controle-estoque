@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Produto
+from .models import Produto, Categoria
 
 
 
@@ -12,7 +12,14 @@ class ProdutoAdmin(admin.ModelAdmin):
 		'ncm',
 		'preco',
 		'estoque',
-		'estoque_minimo'
+		'estoque_minimo',
+		'categoria'
 	)
 	search_fields = ('produto',)
 	list_filter = ('importado',)
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+
+	list_display = ('__str__', )
+	search_fields = ('categoria',)
