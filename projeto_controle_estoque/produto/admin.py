@@ -18,6 +18,13 @@ class ProdutoAdmin(admin.ModelAdmin):
 	search_fields = ('produto',)
 	list_filter = ('importado',)
 
+	class Media:
+
+		js = (
+			'https://code.jquery.com/jquery-3.3.1.min.js',
+			'/static/js/estoque_admin.js'
+		)
+
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
 
